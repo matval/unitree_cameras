@@ -1,0 +1,14 @@
+<launch>
+    <group ns="unitree">
+        <node pkg="unitree_cam_publisher" type="camera_node" name="left_stereo" output="screen">
+            <param name="device" value="1"/>
+        </node>
+
+        <node pkg="unitree_cam_publisher" type="camera_node" name="righ_stereo" output="screen">
+            <param name="device" value="0"/>
+        </node>
+
+        <node name="republish" type="republish" pkg="image_transport" output="screen"
+            args="raw in:=left_stereo/left_camera/rect_image/image_raw compressed out:=left_stereo/left_camera/rect_image" />
+    </group>
+</launch>

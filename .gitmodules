@@ -1,0 +1,3 @@
+[submodule "vision_opencv"]
+	path = vision_opencv
+	url = git@github.com:fizyr-forks/vision_opencv.git
