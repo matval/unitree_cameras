@@ -58,8 +58,6 @@ int main(int argc, char **argv)
     {
         topic_name = "left_stereo";
     }
-
-    std::cout << "deviceNode: " << deviceNode << std::endl;
     
     // Load camera stuf
     UnitreeCamera cam(deviceNode); //"stereo_camera_config.yaml"); ///< init camera by device node number
@@ -78,8 +76,8 @@ int main(int argc, char **argv)
 
     image_transport::ImageTransport it(nh);
     // image_transport::Publisher color_pub = it.advertise("camera/image", 1);
-    image_transport::CameraPublisher left_cam_pub = it.advertiseCamera(topic_name + "/left_camera/rect_image/image_raw", 1);
-    image_transport::CameraPublisher right_cam_pub = it.advertiseCamera(topic_name + "/right_camera/rect_image/image_raw", 1);
+    image_transport::CameraPublisher left_cam_pub = it.advertiseCamera(topic_name + "/left_camera/rect_image", 1);
+    image_transport::CameraPublisher right_cam_pub = it.advertiseCamera(topic_name + "/right_camera/rect_image", 1);
     // image_transport::Publisher depth_pub = it.advertise("camera/depth", 1);
 
     std_msgs::Header image_header;

@@ -9,6 +9,6 @@
         </node>
 
         <node name="republish" type="republish" pkg="image_transport" output="screen"
-            args="raw in:=left_stereo/left_camera/rect_image/image_raw compressed out:=left_stereo/left_camera/rect_image" />
+            args="in:=/unitree/left_stereo/left_camera/rect_image/image_raw out:=/unitree/left_stereo/left_camera/rect_image" />
     </group>
 </launch>
