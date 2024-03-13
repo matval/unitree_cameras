@@ -173,7 +173,16 @@ int main(int argc, char **argv)
 
         if (!left.empty())
         {
-            image_header.frame_id = "left_camera_frame";
+            std::string frame_id = "left_camera_frame";
+            if(deviceNode == 0)
+            {
+                frame_id = "right_" + frame_id;
+            }
+            else if (deviceNode == 1)
+            {
+                frame_id = "left_" + frame_id;
+            }
+            image_header.frame_id = frame_id;
             // Debug color image type
             // std::string ty =  type2str( left.type() );
             // printf("Color: %s %dx%d \n", ty.c_str(), left.cols, left.rows);
@@ -192,7 +201,16 @@ int main(int argc, char **argv)
 
         if (!right.empty())
         {
-            image_header.frame_id = "right_camera_frame";
+            std::string frame_id = "right_camera_frame";
+            if(deviceNode == 0)
+            {
+                frame_id = "right_" + frame_id;
+            }
+            else if (deviceNode == 1)
+            {
+                frame_id = "left_" + frame_id;
+            }
+            image_header.frame_id = frame_id;
             // Debug color image type
             // std::string ty =  type2str( left.type() );
             // printf("Color: %s %dx%d \n", ty.c_str(), left.cols, left.rows);
