@@ -76,8 +76,8 @@ int main(int argc, char **argv)
 
     image_transport::ImageTransport it(nh);
     // image_transport::Publisher color_pub = it.advertise("camera/image", 1);
-    image_transport::CameraPublisher left_cam_pub = it.advertiseCamera(topic_name + "/left_camera/rect_image", 1);
-    image_transport::CameraPublisher right_cam_pub = it.advertiseCamera(topic_name + "/right_camera/rect_image", 1);
+    image_transport::CameraPublisher left_cam_pub = it.advertiseCamera(topic_name + "/left_camera/image_rect_color", 1);
+    image_transport::CameraPublisher right_cam_pub = it.advertiseCamera(topic_name + "/right_camera/image_rect_color", 1);
     // image_transport::Publisher depth_pub = it.advertise("camera/depth", 1);
 
     std_msgs::Header image_header;
@@ -99,13 +99,15 @@ int main(int argc, char **argv)
         right_cam_info->distortion_model = "rational_polynomial";
         for(int i=0; i<right_params[0].rows*right_params[0].cols; i++)
         {
-            right_cam_info->K[i] = right_params[0].reshape(1).at<double>(i);
+            // right_cam_info->K[i] = right_params[0].reshape(1).at<double>(i);
+            right_cam_info->K[i] = right_params[5](
+                cv::Rect( 0, 0, right_params[0].rows, right_params[0].cols)).reshape(1).at<double>(i);
         }
         right_cam_info->D.resize(4, 0.0);
-        for(int i=0; i<right_params[1].rows*right_params[1].cols; i++)
-        {
-            right_cam_info->D[i] = right_params[1].reshape(1).at<double>(i);
-        }
+        // for(int i=0; i<right_params[1].rows*right_params[1].cols; i++)
+        // {
+        //     right_cam_info->D[i] = right_params[1].reshape(1).at<double>(i);
+        // }
         for(int i=0; i<right_params[3].rows*right_params[3].cols; i++)
         {
             right_cam_info->R[i] = right_params[3].reshape(1).at<double>(i);
@@ -130,13 +132,15 @@ int main(int argc, char **argv)
         left_cam_info->distortion_model = "rational_polynomial";
         for(int i=0; i<left_params[0].rows*left_params[0].cols; i++)
         {
-            left_cam_info->K[i] = left_params[0].reshape(1).at<double>(i);
+            // right_cam_info->K[i] = right_params[0].reshape(1).at<double>(i);
+            left_cam_info->K[i] = left_params[5](
+                cv::Rect( 0, 0, left_params[0].rows, left_params[0].cols)).reshape(1).at<double>(i);
         }
         left_cam_info->D.resize(4, 0.0);
-        for(int i=0; i<left_params[1].rows*left_params[1].cols; i++)
-        {
-            left_cam_info->D[i] = left_params[1].reshape(1).at<double>(i);
-        }
+        // for(int i=0; i<left_params[1].rows*left_params[1].cols; i++)
+        // {
+        //     right_cam_info->D[i] = left_params[1].reshape(1).at<double>(i);
+        // }
         for(int i=0; i<left_params[3].rows*left_params[3].cols; i++)
         {
             left_cam_info->R[i] = left_params[3].reshape(1).at<double>(i);
