@@ -1,0 +1,13 @@
+<launch>
+    <group ns="unitree">
+        <node pkg="unitree_cam_publisher" type="camera_node" name="righ_stereo" output="screen">
+            <!-- Set the device node parameter -->
+            <param name="device" value="0"/>
+            <!-- Set the topic name parameter based on the device node -->
+            <param name="topic_name" value="front_stereo" />
+        </node>
+
+        <!-- <node name="republish" type="republish" pkg="image_transport" output="screen"
+            args="in:=/unitree/left_stereo/left_camera/rect_image/image_raw out:=/unitree/left_stereo/left_camera/rect_image" /> -->
+    </group>
+</launch>

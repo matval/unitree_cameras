@@ -49,15 +49,19 @@ int main(int argc, char **argv)
     cv::Size frameSize(1856, 800); ///< default frame size 1856x800
     int fps = 30; ///< default camera fps: 30
 
+    // Get the topic name as a parameter
     std::string topic_name;
-    if(deviceNode == 0)
-    {
-        topic_name = "right_stereo";
-    }
-    else if(deviceNode == 1)
-    {
-        topic_name = "left_stereo";
-    }
+    n.param<std::string>("topic_name", topic_name, "camera");
+
+    // std::string topic_name;
+    // if(deviceNode == 0)
+    // {
+    //     topic_name = "right_stereo";
+    // }
+    // else if(deviceNode == 1)
+    // {
+    //     topic_name = "left_stereo";
+    // }
     
     // Load camera stuf
     UnitreeCamera cam(deviceNode); //"stereo_camera_config.yaml"); ///< init camera by device node number
@@ -96,22 +100,28 @@ int main(int argc, char **argv)
         }
 
         // Populate CameraInfo message
-        right_cam_info->distortion_model = "rational_polynomial";
+        right_cam_info->distortion_model = "plumb_bob";
         for(int i=0; i<right_params[0].rows*right_params[0].cols; i++)
         {
             // right_cam_info->K[i] = right_params[0].reshape(1).at<double>(i);
             right_cam_info->K[i] = right_params[5](
                 cv::Rect( 0, 0, right_params[0].rows, right_params[0].cols)).reshape(1).at<double>(i);
         }
-        right_cam_info->D.resize(4, 0.0);
+        right_cam_info->D.resize(5, 0.0);
         // for(int i=0; i<right_params[1].rows*right_params[1].cols; i++)
         // {
         //     right_cam_info->D[i] = right_params[1].reshape(1).at<double>(i);
         // }
+        // right_params[3] = cv::Mat::eye(3, 3, CV_64F);
         for(int i=0; i<right_params[3].rows*right_params[3].cols; i++)
         {
             right_cam_info->R[i] = right_params[3].reshape(1).at<double>(i);
         }
+
+        // Create a 3x1 column matrix filled with zeros.
+        cv::Mat zeroColumn = cv::Mat::zeros(3, 1, CV_64F);
+        // Add column of zeros as the last column
+        cv::hconcat(right_params[5], zeroColumn, right_params[5]);
         for(int i=0; i<right_params[5].rows*right_params[5].cols; i++)
         {
             right_cam_info->P[i] = right_params[5].reshape(1).at<double>(i);
@@ -129,22 +139,28 @@ int main(int argc, char **argv)
         }
 
         // Populate CameraInfo message
-        left_cam_info->distortion_model = "rational_polynomial";
+        left_cam_info->distortion_model = "plumb_bob";
         for(int i=0; i<left_params[0].rows*left_params[0].cols; i++)
         {
             // right_cam_info->K[i] = right_params[0].reshape(1).at<double>(i);
             left_cam_info->K[i] = left_params[5](
                 cv::Rect( 0, 0, left_params[0].rows, left_params[0].cols)).reshape(1).at<double>(i);
         }
-        left_cam_info->D.resize(4, 0.0);
+        left_cam_info->D.resize(5, 0.0);
         // for(int i=0; i<left_params[1].rows*left_params[1].cols; i++)
         // {
         //     right_cam_info->D[i] = left_params[1].reshape(1).at<double>(i);
         // }
+        // left_params[3] = cv::Mat::eye(3, 3, CV_64F);
         for(int i=0; i<left_params[3].rows*left_params[3].cols; i++)
         {
             left_cam_info->R[i] = left_params[3].reshape(1).at<double>(i);
         }
+
+        // Create a 3x1 column matrix filled with zeros.
+        cv::Mat zeroColumn = cv::Mat::zeros(3, 1, CV_64F);
+        // Add column of zeros as the last column
+        cv::hconcat(left_params[5], zeroColumn, left_params[5]);
         for(int i=0; i<left_params[5].rows*left_params[5].cols; i++)
         {
             left_cam_info->P[i] = left_params[5].reshape(1).at<double>(i);
