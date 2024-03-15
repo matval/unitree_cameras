@@ -2,7 +2,7 @@
     <group ns="unitree">
         <node pkg="unitree_cam_publisher" type="camera_node" name="righ_stereo" output="screen">
             <!-- Set the device node parameter -->
-            <param name="device" value="0"/>
+            <param name="device" value="1"/>
             <!-- Set the topic name parameter based on the device node -->
             <param name="topic_name" value="front_stereo" />
         </node>
