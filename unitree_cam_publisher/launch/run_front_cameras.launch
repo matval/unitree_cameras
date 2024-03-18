@@ -1,6 +1,6 @@
 <launch>
     <group ns="unitree">
-        <node pkg="unitree_cam_publisher" type="camera_node" name="righ_stereo" output="screen">
+        <node pkg="unitree_cam_publisher" type="camera_node" name="front_stereo" output="screen">
             <!-- Set the device node parameter -->
             <param name="device" value="1"/>
             <!-- Set the topic name parameter based on the device node -->
