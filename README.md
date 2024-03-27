@@ -25,7 +25,7 @@ Add these lines:
 local stratum 8
 # allow the IP of your peer to connect
 allow 192.168.123.13
-allow 192.168.123.13
+allow 192.168.123.14
 ```
 Then, on the clients (`192.168.123.13` and `192.168.123.14`):
 ```
